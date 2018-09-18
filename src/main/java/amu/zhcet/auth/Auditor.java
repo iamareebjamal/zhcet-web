@@ -17,6 +17,19 @@ public class Auditor implements AuditorAware<String> {
         return getLoggedInAuthentication().flatMap(authentication -> Optional.of((UserAuth) authentication.getPrincipal()));
     }
 
+    public static UserAuth getLoggedInUserAuth() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserAuth) {
+                return (UserAuth) principal;
+            }
+        }
+
+        return null;
+    }
+
     public static Optional<String> getLoggedInUsernameOptional() {
         return getLoggedInAuthentication()
                 .filter(authentication -> authentication.getPrincipal() instanceof User)

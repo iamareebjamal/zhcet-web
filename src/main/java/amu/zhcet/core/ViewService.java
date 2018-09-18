@@ -1,10 +1,15 @@
 package amu.zhcet.core;
 
+import amu.zhcet.auth.Auditor;
+import amu.zhcet.auth.UserAuth;
 import amu.zhcet.data.course.Course;
 import amu.zhcet.data.user.Gender;
+import lombok.extern.slf4j.Slf4j;
+
 import com.google.common.base.Strings;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class ViewService {
 
@@ -51,6 +56,46 @@ public class ViewService {
             default:
                 return "Active";
         }
+    }
+
+    public boolean isPasswordChanged() {
+        UserAuth userAuth = Auditor.getLoggedInUserAuth();
+
+        if (userAuth != null) {
+            return userAuth.isPasswordChanged();
+        }
+
+        return false;
+    }
+
+    public boolean isEmailVerified() {
+        UserAuth userAuth = Auditor.getLoggedInUserAuth();
+
+        if (userAuth != null) {
+            return userAuth.isEmailVerified();
+        }
+
+        return false;
+    }
+
+    public boolean p() {
+        long time = System.nanoTime();
+        boolean b = isPasswordChanged();
+        long execTime = System.nanoTime() - time;
+        log.debug("Exec time password {} {}", execTime, b);
+
+        log.debug("===================");
+        return b;
+    }
+
+    public boolean b() {
+        long time = System.nanoTime();
+        boolean b = isEmailVerified();
+        long execTime = System.nanoTime() - time;
+        log.debug("Exec time email {} {}", execTime, b);
+
+        log.debug("===================");
+        return b;
     }
 
 }
