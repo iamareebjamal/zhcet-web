@@ -1,5 +1,7 @@
 package amu.zhcet.common.configuration;
 
+import nz.net.ultraq.thymeleaf.LayoutDialect;
+import nz.net.ultraq.thymeleaf.decorators.strategies.GroupingStrategy;
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +24,11 @@ public class TemplateConfig {
 
     public TemplateConfig(ThymeleafProperties thymeleafProperties) {
         this.thymeleafProperties = thymeleafProperties;
+    }
+
+    @Bean
+    public LayoutDialect layoutDialect() {
+        return new LayoutDialect(new GroupingStrategy());
     }
 
     @Bean(name = "extraTemplateEngine")
